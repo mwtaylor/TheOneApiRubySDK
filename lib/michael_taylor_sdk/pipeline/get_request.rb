@@ -1,5 +1,7 @@
-require 'uri'
-require 'net/http'
+# frozen_string_literal: true
+
+require "uri"
+require "net/http"
 
 module MichaelTaylorSdk::Pipeline
   class GetRequest
@@ -31,9 +33,9 @@ module MichaelTaylorSdk::Pipeline
       request = Net::HTTP::Get.new(uri(request_details))
       add_headers(request)
 
-      @response = Net::HTTP.start(request.uri.hostname, use_ssl: true) { |http|
+      @response = Net::HTTP.start(request.uri.hostname, use_ssl: true) do |http|
         http.request(request)
-      }
+      end
     end
 
     def http_response

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MichaelTaylorSdk::Pipeline
   class SetPath
     def initialize(next_pipeline_stage, path)

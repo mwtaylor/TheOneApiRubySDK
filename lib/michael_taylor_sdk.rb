@@ -16,14 +16,14 @@ module MichaelTaylorSdk
     DEFAULT_BASE_URL = "https://the-one-api.dev/v2"
 
     def initialize(access_token, base_url: DEFAULT_BASE_URL)
-      @default_pipeline = -> {
+      @default_pipeline = lambda {
         {
-          paginate: -> (next_stage) { MichaelTaylorSdk::Pipeline::Paginate.new(next_stage) },
-          json: -> (next_stage) { MichaelTaylorSdk::Pipeline::Json.new(next_stage) },
-          response_body: -> (next_stage) { MichaelTaylorSdk::Pipeline::ResponseBody.new(next_stage) },
-          set_path: -> (next_stage) { },
-          get_request: -> () { MichaelTaylorSdk::Pipeline::GetRequest.new(base_url, access_token) },
-          stages: [:paginate, :json, :response_body, :set_path, :get_request]
+          paginate: ->(next_stage) { MichaelTaylorSdk::Pipeline::Paginate.new(next_stage) },
+          json: ->(next_stage) { MichaelTaylorSdk::Pipeline::Json.new(next_stage) },
+          response_body: ->(next_stage) { MichaelTaylorSdk::Pipeline::ResponseBody.new(next_stage) },
+          set_path: ->(next_stage) {},
+          get_request: -> { MichaelTaylorSdk::Pipeline::GetRequest.new(base_url, access_token) },
+          stages: %i[paginate json response_body set_path get_request]
         }
       }
     end

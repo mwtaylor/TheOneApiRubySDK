@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe MichaelTaylorSdk::ApiPaths::Movies do
   def setup_tests_and_response(expected_path, body)
     http = double(Net::HTTP)

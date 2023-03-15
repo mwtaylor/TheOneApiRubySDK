@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MichaelTaylorSdk::Pipeline
   class Paginate
     def initialize(next_pipeline_stage, limit: nil, page: nil, offset: nil)
