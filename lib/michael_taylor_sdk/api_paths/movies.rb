@@ -28,6 +28,7 @@ module MichaelTaylorSdk::ApiPaths
         end
       end
       raise "Movie named #{name} not found" if movies[:items].empty?
+
       matching_movie = movies[:items][0]
       quotes_from_movie(matching_movie[:_id])
     end
