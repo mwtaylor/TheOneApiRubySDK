@@ -11,10 +11,10 @@ Gem::Specification.new do |spec|
   spec.summary = "SDK for the Lord of the Rings API"
   spec.homepage = "https://github.com/mwtaylor/MichaelTaylor-SDK"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.2.0"
+  spec.required_ruby_version = ">= 3.0.0"
 
-  spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
   spec.metadata["rubygems_mfa_required"] = "true"
+  spec.metadata["github_repo"] = "https://github.com/mwtaylor/MichaelTaylor-SDK"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.

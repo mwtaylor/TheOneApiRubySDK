@@ -1,24 +1,45 @@
 # MichaelTaylorSdk
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/michael_taylor_sdk`. To experiment with that code, run `bin/console` for an interactive prompt.
-
 ## Installation
-
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
 
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ bundle add michael_taylor_sdk
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ gem install michael_taylor_sdk
 
 ## Usage
 
-TODO: Write usage instructions here
+An access key is required to use this SDK. Visit [The One API sign up](https://the-one-api.dev/sign-up) to get one.
+
+Start using the SDK by passing the access key to get an instance of the SDK.
+
+    lotr_sdk = MichaelTaylorSdk::LordOfTheRings.new("YOUR_ACCESS_KEY")
+
+Access one type of data by calling the appropriate method on the SDK, such as `.movies` to get information about one or more movies.
+
+    lotr_sdk.movies.list # Get all movies
+    lotr_sdk.movies.get("#{movie_id}") # Get one movie by ID
+
+The SDK behavior can be changed with modifier methods. These can be chained.
+
+    # Return at most 10 results
+    lotr_sdk.paginated(limit: 10).movies.list
+
+    # Try to make the call up to 3 times
+    exponential_backoff = MichaelTaylorSdk::RetryStrategy::ExponentialBackoff.new(3)
+    lotr_sdk.with_retry_strategy(exponential_backoff).movies.list
+    
+    # Both modifiers active
+    lotr_sdk.paginated(limit: 10).with_retry_strategy(exponential_backoff).movies.list
+
+    # Use modifiers more than once
+    lotr_sdk.paginated(limit: 10).with_retry_strategy(exponential_backoff) do |modified_sdk|
+        modified_sdk.movies.list
+        modified_sdk.movies.get("#{movie_id}")
+    end
 
 ## Development
 
@@ -28,7 +49,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/michael_taylor_sdk.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mwtaylor/michael_taylor_sdk.
 
 ## License
 
