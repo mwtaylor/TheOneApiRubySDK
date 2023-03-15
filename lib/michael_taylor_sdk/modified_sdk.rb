@@ -14,7 +14,12 @@ module MichaelTaylorSdk
         MichaelTaylorSdk::Pipeline::Retry.new(next_stage, retry_strategy)
       }
       new_pipeline = replace_existing_stage(@pipeline, :retry, new_retry_stage)
-      MichaelTaylorSdk::ModifiedSdk.new(new_pipeline)
+      modified_sdk = MichaelTaylorSdk::ModifiedSdk.new(new_pipeline)
+      if block_given?
+        yield(modified_sdk)
+      else
+        modified_sdk
+      end
     end
 
     def paginated(limit: nil, page: nil, offset: nil)
@@ -22,7 +27,12 @@ module MichaelTaylorSdk
         MichaelTaylorSdk::Pipeline::Paginate.new(next_stage, limit: limit, page: page, offset: offset)
       }
       new_pipeline = replace_existing_stage(@pipeline, :paginate, new_paginate_stage)
-      MichaelTaylorSdk::ModifiedSdk.new(new_pipeline)
+      modified_sdk = MichaelTaylorSdk::ModifiedSdk.new(new_pipeline)
+      if block_given?
+        yield(modified_sdk)
+      else
+        modified_sdk
+      end
     end
   end
 
