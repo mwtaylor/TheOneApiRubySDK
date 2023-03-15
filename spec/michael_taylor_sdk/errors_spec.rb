@@ -24,7 +24,9 @@ RSpec.describe MichaelTaylorSdk::ApiPaths::Movies do
 
       setup_tests_and_response("movie", response)
       movies_api = MichaelTaylorSdk::LordOfTheRings.new("").movies
-      expect { movies_api.list }.to raise_error(MichaelTaylorSdk::Errors::ServerError, "(Server Error) 500: Internal Server Error")
+      expect do
+        movies_api.list
+      end.to raise_error(MichaelTaylorSdk::Errors::ServerError, "(Server Error) 500: Internal Server Error")
     end
 
     it "raises a readable client error" do
@@ -62,7 +64,10 @@ RSpec.describe MichaelTaylorSdk::ApiPaths::Movies do
       response_body = "{[}]"
       setup_tests_and_response("movie", response_body)
       movies_api = MichaelTaylorSdk::LordOfTheRings.new("").movies
-      expect { movies_api.list }.to raise_error(MichaelTaylorSdk::Errors::JsonParseError, "JSON response could not be parsed: unexpected token at '{[}]'")
+      expect do
+        movies_api.list
+      end.to raise_error(MichaelTaylorSdk::Errors::JsonParseError,
+                         "JSON response could not be parsed: unexpected token at '{[}]'")
     end
 
     it "raises an error for no content" do

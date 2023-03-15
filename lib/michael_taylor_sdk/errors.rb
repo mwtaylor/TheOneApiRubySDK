@@ -26,14 +26,8 @@ module MichaelTaylorSdk::Errors
   end
 
   class JsonParseError < ContentError
-    def initialize(msg)
-      super(msg)
-    end
   end
 
   class NoContentError < ContentError
-    def initialize(msg)
-      super(msg)
-    end
   end
 end

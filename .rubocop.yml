@@ -34,3 +34,7 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
     - spec/**/*.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - spec/**/*.rb

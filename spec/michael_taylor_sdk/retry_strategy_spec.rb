@@ -30,14 +30,14 @@ RSpec.describe MichaelTaylorSdk::ApiPaths::Movies do
     setup_tests_and_response("movie")
 
     exponential_backoff = MichaelTaylorSdk::RetryStrategy::ExponentialBackoff.new(3)
-    expect(exponential_backoff).to receive(:sleep).once { |sleep_time|
+    expect(exponential_backoff).to(receive(:sleep).once do |sleep_time|
       expect(sleep_time).to be >= 0.05
       expect(sleep_time).to be <= 0.1
-    }
-    expect(exponential_backoff).to receive(:sleep).once { |sleep_time|
+    end)
+    expect(exponential_backoff).to(receive(:sleep).once do |sleep_time|
       expect(sleep_time).to be >= 0.1
       expect(sleep_time).to be <= 0.2
-    }
+    end)
 
     movies_api = MichaelTaylorSdk::LordOfTheRings.new("").with_retry_strategy(exponential_backoff).movies
     expect { movies_api.list }.to raise_error(MichaelTaylorSdk::Errors::ServerError)
