@@ -6,8 +6,6 @@ require "michael_taylor_sdk/pipeline/set_path"
 
 module MichaelTaylorSdk::ApiPaths
   class Movies < Base
-    include MichaelTaylorSdk::Pipeline::PipelineModifiers
-
     def initialize(pipeline)
       super(pipeline)
       @pipeline = replace_existing_stage(

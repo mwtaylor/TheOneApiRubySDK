@@ -14,6 +14,8 @@ module MichaelTaylorSdk::Pipeline
 
     def result_hash
       JSON.parse(@next_pipeline_stage.http_body, symbolize_names: true)
+    rescue JSON::ParserError => e
+      raise MichaelTaylorSdk::Errors::JsonParseError.new("JSON response could not be parsed: #{e.message}")
     end
   end
 end

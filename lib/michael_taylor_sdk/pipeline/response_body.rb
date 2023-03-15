@@ -11,7 +11,9 @@ module MichaelTaylorSdk::Pipeline
     end
 
     def http_body
-      @next_pipeline_stage.http_response.body
+      body = @next_pipeline_stage.http_response.body
+      raise MichaelTaylorSdk::Errors::NoContentError.new("Server response was empty") if body.empty?
+      body
     end
   end
 end

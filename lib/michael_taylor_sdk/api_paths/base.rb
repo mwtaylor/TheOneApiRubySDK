@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+require "michael_taylor_sdk/pipeline/pipeline_modifiers"
+
 module MichaelTaylorSdk::ApiPaths
   class Base
+    include MichaelTaylorSdk::Pipeline::PipelineModifiers
+
     attr_reader :pipeline
 
     def initialize(pipeline)

@@ -22,7 +22,7 @@ module MichaelTaylorSdk::Pipeline
 
       {
         items: next_result[:docs],
-        pagination: next_result.slice(:total, :limit, :offset, :page, :pages)
+        pagination: next_result.slice(:total, :limit, :offset, :page, :pages),
       }
     end
   end

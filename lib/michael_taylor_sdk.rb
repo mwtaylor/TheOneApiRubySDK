@@ -6,30 +6,41 @@ require "michael_taylor_sdk/pipeline/pipeline_modifiers"
 require "michael_taylor_sdk/pipeline/paginate"
 require "michael_taylor_sdk/pipeline/json"
 require "michael_taylor_sdk/pipeline/response_body"
+require "michael_taylor_sdk/pipeline/retry"
+require "michael_taylor_sdk/pipeline/raise_http_errors"
 require "michael_taylor_sdk/pipeline/get_request"
-require "michael_taylor_sdk/api_paths/movies"
+require "michael_taylor_sdk/api_paths/all_paths"
+require "michael_taylor_sdk/modified_sdk"
 
 module MichaelTaylorSdk
   class LordOfTheRings
     include MichaelTaylorSdk::Pipeline::PipelineModifiers
+    include MichaelTaylorSdk::ApiPaths::AllPaths
+    include MichaelTaylorSdk::Modifiers
 
     DEFAULT_BASE_URL = "https://the-one-api.dev/v2"
 
-    def initialize(access_token, base_url: DEFAULT_BASE_URL)
+    # rubocop:disable Metrics/MethodLength
+    def initialize(
+      access_token,
+      base_url: DEFAULT_BASE_URL,
+      default_retry_strategy: MichaelTaylorSdk::RetryStrategy::OneTry.new
+    )
       @default_pipeline = lambda {
         {
           paginate: ->(next_stage) { MichaelTaylorSdk::Pipeline::Paginate.new(next_stage) },
           json: ->(next_stage) { MichaelTaylorSdk::Pipeline::Json.new(next_stage) },
           response_body: ->(next_stage) { MichaelTaylorSdk::Pipeline::ResponseBody.new(next_stage) },
           set_path: ->(next_stage) {},
+          retry: ->(next_stage) { MichaelTaylorSdk::Pipeline::Retry.new(next_stage, default_retry_strategy) },
+          raise_http_errors: ->(next_stage) { MichaelTaylorSdk::Pipeline::RaiseHttpErrors.new(next_stage) },
           get_request: -> { MichaelTaylorSdk::Pipeline::GetRequest.new(base_url, access_token) },
-          stages: %i[paginate json response_body set_path get_request]
+          stages: %i[paginate json response_body set_path retry raise_http_errors get_request],
         }
       }
-    end
 
-    def movies
-      MichaelTaylorSdk::ApiPaths::Movies.new(@default_pipeline)
+      @pipeline = @default_pipeline
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end
