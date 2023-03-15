@@ -41,6 +41,11 @@ The SDK behavior can be changed with modifier methods. These can be chained.
         modified_sdk.movies.get("#{movie_id}")
     end
 
+Quotes from a movie can be queried by movie ID or name
+
+    lotr_sdk.movies.quotes_from_movie("#{movie_id}")
+    lotr_sdk.movies.quotes_from_movie_name("#{movie_name}")
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

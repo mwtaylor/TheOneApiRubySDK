@@ -26,12 +26,9 @@ module MichaelTaylorSdk::ApiPaths
     end
 
     def get(id)
-      pipeline = replace_existing_stage(
-        @pipeline,
-        :set_path,
-        ->(next_stage) { MichaelTaylorSdk::Pipeline::SetPath.new(next_stage, id_path(id)) }
-      )
-      execute_pipeline(pipeline, {})
+      with_path(@pipeline, id_path(id)) do |pipeline|
+        execute_pipeline(pipeline, {})
+      end
     end
 
     protected

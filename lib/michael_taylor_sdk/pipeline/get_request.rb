@@ -32,7 +32,7 @@ module MichaelTaylorSdk::Pipeline
 
     def query_string(request_details)
       request_details[:query_parameters]
-        .map { |key, value| "#{key}=#{value}" }
+        .map { |key, value| value.nil? ? key : "#{key}=#{value}" }
         .join("&")
     end
 
