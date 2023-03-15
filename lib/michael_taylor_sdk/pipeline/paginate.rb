@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module MichaelTaylorSdk::Pipeline
+  ##
+  # Pipeline stage that adds pagination parameters and adds pagination details into response
   class Paginate
     def initialize(next_pipeline_stage, limit: nil, page: nil, offset: nil)
       @next_pipeline_stage = next_pipeline_stage

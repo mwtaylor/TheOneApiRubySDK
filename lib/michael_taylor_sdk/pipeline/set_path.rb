@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module MichaelTaylorSdk::Pipeline
+  ##
+  # Pipeline stage to set the path into the HTTP request
   class SetPath
     def initialize(next_pipeline_stage, path)
       @next_pipeline_stage = next_pipeline_stage

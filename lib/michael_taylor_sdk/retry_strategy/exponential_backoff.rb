@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 module MichaelTaylorSdk::RetryStrategy
+  ##
+  # Retry strategy for exponential backoffs
+  #
+  # This will rerun an HTTP call up to max_tries times. Each retry will be delayed.
+  # The delay will have an exponential backoff that makes each delay about twice as long as the previous delay.
+  # The delay will also have a random jitter added to avoid overloading the server from many clients
+  # retrying simultaneously.
   class ExponentialBackoff
     def initialize(max_tries)
       @max_tries = max_tries
-    end
-
-    def jittered_sleep(tries)
-      max_sleep_seconds = Float(2**tries) / 20
-      sleep(rand((0.5 * max_sleep_seconds)..max_sleep_seconds))
     end
 
     def run(do_request)
@@ -23,6 +25,13 @@ module MichaelTaylorSdk::RetryStrategy
 
         retry
       end
+    end
+
+    private
+
+    def jittered_sleep(tries)
+      max_sleep_seconds = Float(2**tries) / 20
+      sleep(rand((0.5 * max_sleep_seconds)..max_sleep_seconds))
     end
   end
 end

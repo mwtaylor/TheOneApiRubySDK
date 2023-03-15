@@ -3,6 +3,8 @@
 require "michael_taylor_sdk/pipeline/pipeline_modifiers"
 
 module MichaelTaylorSdk::ApiPaths
+  ##
+  # Provides common methods for all API paths
   class Base
     include MichaelTaylorSdk::Pipeline::PipelineModifiers
 
@@ -12,6 +14,8 @@ module MichaelTaylorSdk::ApiPaths
       @pipeline = pipeline
     end
 
+    ##
+    # List all items
     def list
       pipeline = @pipeline.call
       stage_initializers = pipeline[:stages].map { |stage_key| pipeline[stage_key] }
@@ -19,6 +23,8 @@ module MichaelTaylorSdk::ApiPaths
       next_stage.execute_http_request({})
       next_stage.result_hash
     end
+
+    protected
 
     def initialize_pipeline_stages(stage_initializers)
       next_stage = nil

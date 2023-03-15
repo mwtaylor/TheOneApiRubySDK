@@ -3,6 +3,8 @@
 require "json"
 
 module MichaelTaylorSdk::Pipeline
+  ##
+  # Pipeline stage to transform an HTTP body to JSON
   class Json
     def initialize(next_pipeline_stage)
       @next_pipeline_stage = next_pipeline_stage

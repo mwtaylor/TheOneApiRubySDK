@@ -13,6 +13,8 @@ require "michael_taylor_sdk/api_paths/all_paths"
 require "michael_taylor_sdk/modified_sdk"
 
 module MichaelTaylorSdk
+  ##
+  # Entry point into the SDK
   class LordOfTheRings
     include MichaelTaylorSdk::Pipeline::PipelineModifiers
     include MichaelTaylorSdk::ApiPaths::AllPaths

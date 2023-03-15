@@ -3,6 +3,8 @@
 require "michael_taylor_sdk/errors"
 
 module MichaelTaylorSdk::Pipeline
+  ##
+  # Pipeline stage that raises errors when the HTTP response is a 4xx or 5xx error
   class RaiseHttpErrors
     def initialize(next_pipeline_stage)
       @next_pipeline_stage = next_pipeline_stage

@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 3.2
+  TargetRubyVersion: 3.0
   NewCops: enable
 
 Style/StringLiterals:
@@ -9,9 +9,6 @@ Style/StringLiterals:
 Style/StringLiteralsInInterpolation:
   Enabled: true
   EnforcedStyle: double_quotes
-
-Style/Documentation:
-  Enabled: false
 
 Style/ClassAndModuleChildren:
   Enabled: false

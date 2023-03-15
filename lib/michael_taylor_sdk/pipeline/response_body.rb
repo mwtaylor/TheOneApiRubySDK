@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module MichaelTaylorSdk::Pipeline
+  ##
+  # Pipeline stage to get body content from HTTP response
   class ResponseBody
     def initialize(next_pipeline_stage)
       @next_pipeline_stage = next_pipeline_stage

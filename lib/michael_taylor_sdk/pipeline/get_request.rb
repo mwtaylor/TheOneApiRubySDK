@@ -4,6 +4,8 @@ require "uri"
 require "net/http"
 
 module MichaelTaylorSdk::Pipeline
+  ##
+  # Final pipeline stage that sends an HTTP request to the server
   class GetRequest
     HEADER_AUTHORIZATION = "Authorization"
     AUTHENTICATION_SCHEME_BEARER = "Bearer"
@@ -12,6 +14,21 @@ module MichaelTaylorSdk::Pipeline
       @base_url = base_url
       @authorization_token = authorization_token
     end
+
+    def execute_http_request(request_details)
+      request = Net::HTTP::Get.new(uri(request_details))
+      add_headers(request)
+
+      @response = Net::HTTP.start(request.uri.hostname, use_ssl: true) do |http|
+        http.request(request)
+      end
+    end
+
+    def http_response
+      @response
+    end
+
+    private
 
     def query_string(request_details)
       request_details[:query_parameters]
@@ -27,19 +44,6 @@ module MichaelTaylorSdk::Pipeline
 
     def add_headers(request)
       request[HEADER_AUTHORIZATION] = "#{AUTHENTICATION_SCHEME_BEARER} #{@authorization_token}"
-    end
-
-    def execute_http_request(request_details)
-      request = Net::HTTP::Get.new(uri(request_details))
-      add_headers(request)
-
-      @response = Net::HTTP.start(request.uri.hostname, use_ssl: true) do |http|
-        http.request(request)
-      end
-    end
-
-    def http_response
-      @response
     end
   end
 end

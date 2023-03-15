@@ -3,6 +3,7 @@
 require "michael_taylor_sdk/retry_strategy/one_try"
 
 module MichaelTaylorSdk::Pipeline
+  ## Pipeline stage to run a given retry strategy
   class Retry
     def initialize(next_pipeline_stage, retry_strategy)
       @next_pipeline_stage = next_pipeline_stage
