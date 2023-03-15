@@ -16,6 +16,14 @@ module MichaelTaylorSdk
       new_pipeline = replace_existing_stage(@pipeline, :retry, new_retry_stage)
       MichaelTaylorSdk::ModifiedSdk.new(new_pipeline)
     end
+
+    def paginated(limit: nil, page: nil, offset: nil)
+      new_paginate_stage = lambda { |next_stage|
+        MichaelTaylorSdk::Pipeline::Paginate.new(next_stage, limit: limit, page: page, offset: offset)
+      }
+      new_pipeline = replace_existing_stage(@pipeline, :paginate, new_paginate_stage)
+      MichaelTaylorSdk::ModifiedSdk.new(new_pipeline)
+    end
   end
 
   ##

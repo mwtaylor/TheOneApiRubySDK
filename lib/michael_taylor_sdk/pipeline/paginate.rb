@@ -12,6 +12,7 @@ module MichaelTaylorSdk::Pipeline
     end
 
     def execute_http_request(request_details)
+      request_details[:query_parameters] = {} unless request_details.key?(:query_parameters)
       request_details[:query_parameters]["limit"] = @limit unless @limit.nil?
       request_details[:query_parameters]["page"] = @page unless @page.nil?
       request_details[:query_parameters]["offset"] = @offset unless @offset.nil?

@@ -3,7 +3,7 @@
 require "json"
 require "michael_taylor_sdk/retry_strategy/exponential_backoff"
 
-RSpec.describe MichaelTaylorSdk::ApiPaths::Movies do
+RSpec.describe MichaelTaylorSdk::RetryStrategy do
   def setup_tests_and_response(expected_path)
     http = double(Net::HTTP)
     allow(Net::HTTP).to receive(:start).with("the-one-api.dev", { use_ssl: true }).and_yield(http)

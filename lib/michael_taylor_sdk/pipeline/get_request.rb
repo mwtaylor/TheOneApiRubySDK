@@ -38,7 +38,9 @@ module MichaelTaylorSdk::Pipeline
 
     def uri(request_details)
       uri = "#{@base_url}/#{request_details[:path]}"
-      uri += "?#{query_string(request_details)}" if request_details.key?(:query_parameters)
+      if request_details.key?(:query_parameters) && !request_details[:query_parameters].empty?
+        uri += "?#{query_string(request_details)}"
+      end
       URI(uri)
     end
 

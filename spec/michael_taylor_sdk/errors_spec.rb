@@ -2,7 +2,7 @@
 
 require "json"
 
-RSpec.describe MichaelTaylorSdk::ApiPaths::Movies do
+RSpec.describe MichaelTaylorSdk::Errors do
   context "HTTP Errors" do
     def setup_tests_and_response(expected_path, response)
       http = double(Net::HTTP)
