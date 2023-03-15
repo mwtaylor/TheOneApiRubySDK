@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "michael_taylor_sdk/constants"
+
 module MichaelTaylorSdk::RetryStrategy
   ##
   # Retry strategy for exponential backoffs
@@ -9,6 +11,8 @@ module MichaelTaylorSdk::RetryStrategy
   # The delay will also have a random jitter added to avoid overloading the server from many clients
   # retrying simultaneously.
   class ExponentialBackoff
+    include MichaelTaylorSdk::Constants
+
     def initialize(max_tries)
       @max_tries = max_tries
     end
@@ -30,7 +34,7 @@ module MichaelTaylorSdk::RetryStrategy
     private
 
     def jittered_sleep(tries)
-      max_sleep_seconds = Float(2**tries) / 20
+      max_sleep_seconds = Float(2**tries) / EXPONENTIAL_BACKOFF_TIME_DIVISOR
       sleep(rand((0.5 * max_sleep_seconds)..max_sleep_seconds))
     end
   end

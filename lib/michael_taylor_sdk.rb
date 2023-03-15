@@ -11,6 +11,7 @@ require "michael_taylor_sdk/pipeline/raise_http_errors"
 require "michael_taylor_sdk/pipeline/get_request"
 require "michael_taylor_sdk/api_paths/all_paths"
 require "michael_taylor_sdk/modified_sdk"
+require "michael_taylor_sdk/constants"
 
 module MichaelTaylorSdk
   ##
