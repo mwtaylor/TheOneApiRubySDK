@@ -12,19 +12,41 @@ module MichaelTaylorSdk::ApiPaths
 
     def initialize(pipeline)
       @pipeline = pipeline
+      @pipeline = replace_existing_stage(
+        @pipeline,
+        :set_path,
+        ->(next_stage) { MichaelTaylorSdk::Pipeline::SetPath.new(next_stage, path) }
+      )
     end
 
     ##
     # List all items
     def list
-      pipeline = @pipeline.call
-      stage_initializers = pipeline[:stages].map { |stage_key| pipeline[stage_key] }
-      next_stage = initialize_pipeline_stages(stage_initializers)
-      next_stage.execute_http_request({})
-      next_stage.result_hash
+      execute_pipeline(@pipeline, {})
+    end
+
+    def get(id)
+      pipeline = replace_existing_stage(
+        @pipeline,
+        :set_path,
+        ->(next_stage) { MichaelTaylorSdk::Pipeline::SetPath.new(next_stage, id_path(id)) }
+      )
+      execute_pipeline(pipeline, {})
     end
 
     protected
+
+    def id_path(id)
+      "#{path}/#{id}"
+    end
+
+    def execute_pipeline(pipeline_initializer, input)
+      pipeline = pipeline_initializer.call
+      stage_initializers = pipeline[:stages].map { |stage_key| pipeline[stage_key] }
+      next_stage = initialize_pipeline_stages(stage_initializers)
+      next_stage.execute_http_request(input)
+      next_stage.result_hash
+    end
 
     def initialize_pipeline_stages(stage_initializers)
       next_stage = nil

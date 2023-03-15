@@ -38,4 +38,20 @@ RSpec.describe MichaelTaylorSdk::ApiPaths::Movies do
     expect(movies_list).to include(:items)
     expect(movies_list[:items].length).to eq 2
   end
+
+  it "gets one movie by ID" do
+    response_body = {
+      docs: [
+        {
+          _id: "1",
+          name: "movie one",
+        },
+      ],
+    }
+    setup_tests_and_response("movie/1", response_body.to_json)
+    movies_api = MichaelTaylorSdk::LordOfTheRings.new("").movies
+    movies_list = movies_api.get("1")
+    expect(movies_list).to include(:items)
+    expect(movies_list[:items].length).to eq 1
+  end
 end
