@@ -1,9 +1,9 @@
 name: Ruby
 
 on:
-  push
+  push:
 
-  pull_request
+  pull_request:
 
 jobs:
   build:
