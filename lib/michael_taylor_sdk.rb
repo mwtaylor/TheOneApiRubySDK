@@ -30,7 +30,6 @@ module MichaelTaylorSdk
       base_url: DEFAULT_BASE_URL,
       default_retry_strategy: MichaelTaylorSdk::RetryStrategy::OneTry.new
     )
-
       raise "Access token must be given as a string" unless access_token.is_a? String
 
       @default_pipeline = lambda {

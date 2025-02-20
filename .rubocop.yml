@@ -1,3 +1,7 @@
+plugins:
+  - rubocop-rspec
+  - rubocop-rake
+
 AllCops:
   TargetRubyVersion: 3.0
   NewCops: enable
@@ -35,3 +39,9 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Exclude:
     - spec/**/*.rb
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false

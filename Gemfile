@@ -2,11 +2,16 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in michael_taylor_sdk.gemspec
 gemspec
 
-gem "rake", "~> 13.2", :groups => [:development, :test]
+group :test, :development do
+  gem "rake", "~> 13.2"
 
-gem "rspec", "~> 3.13", :groups => [:development, :test]
+  gem "rspec", "~> 3.13"
 
-gem "rubocop", "~> 1.72", :groups => [:development, :test]
+  gem "rubocop", "~> 1.72"
+
+  gem "rubocop-rake", "~> 0.7.1"
+
+  gem "rubocop-rspec", "~> 3.5"
+end

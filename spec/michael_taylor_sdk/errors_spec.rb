@@ -3,9 +3,9 @@
 require "json"
 
 RSpec.describe MichaelTaylorSdk::Errors do
-  context "HTTP Errors" do
+  context "with HTTP errors" do
     def setup_tests_and_response(expected_path, response)
-      http = double(Net::HTTP)
+      http = instance_double(Net::HTTP)
       allow(Net::HTTP).to receive(:start).with("the-one-api.dev", { use_ssl: true }).and_yield(http)
       allow(http).to receive(:request) do |request|
         expect(request.uri.request_uri).to eq "/v2/#{expected_path}"
@@ -15,10 +15,9 @@ RSpec.describe MichaelTaylorSdk::Errors do
     end
 
     it "raises a readable server error" do
-      response = double(Net::HTTPInternalServerError)
-      allow(response).to receive(:class).and_return(Net::HTTPInternalServerError)
-      allow(response).to receive(:code).and_return("500")
-      allow(response).to receive(:message).and_return("Internal Server Error")
+      response = instance_double(Net::HTTPInternalServerError)
+      allow(response).to receive_messages(class: Net::HTTPInternalServerError, code: "500",
+                                          message: "Internal Server Error")
       allow(response).to receive(:is_a?).with(Net::HTTPServerError).and_return(true)
       allow(response).to receive(:is_a?).with(Net::HTTPClientError).and_return(false)
 
@@ -30,10 +29,8 @@ RSpec.describe MichaelTaylorSdk::Errors do
     end
 
     it "raises a readable client error" do
-      response = double(Net::HTTPNotFound)
-      allow(response).to receive(:class).and_return(Net::HTTPNotFound)
-      allow(response).to receive(:code).and_return("404")
-      allow(response).to receive(:message).and_return("Not Found")
+      response = instance_double(Net::HTTPNotFound)
+      allow(response).to receive_messages(class: Net::HTTPNotFound, code: "404", message: "Not Found")
       allow(response).to receive(:is_a?).with(Net::HTTPServerError).and_return(false)
       allow(response).to receive(:is_a?).with(Net::HTTPClientError).and_return(true)
 
@@ -43,37 +40,43 @@ RSpec.describe MichaelTaylorSdk::Errors do
     end
   end
 
-  context "Content Errors" do
-    def setup_tests_and_response(expected_path, body)
-      http = double(Net::HTTP)
-      expect(Net::HTTP).to receive(:start).with("the-one-api.dev", { use_ssl: true }).and_yield(http)
-      expect(http).to receive(:request) do |request|
-        expect(request.uri.request_uri).to eq "/v2/#{expected_path}"
+  context "with content errors" do
+    let(:http) { instance_double(Net::HTTP) }
 
-        response = double(Net::HTTPOK)
-        allow(response).to receive(:class).and_return(Net::HTTPOK)
-        allow(response).to receive(:code).and_return("200")
+    def setup_tests_and_response(body)
+      allow(Net::HTTP).to receive(:start).with("the-one-api.dev", { use_ssl: true }).and_yield(http)
+      allow(http).to receive(:request) do
+        response = instance_double(Net::HTTPOK)
         allow(response).to receive(:is_a?).with(Net::HTTPServerError).and_return(false)
         allow(response).to receive(:is_a?).with(Net::HTTPClientError).and_return(false)
-        allow(response).to receive(:body).and_return(body)
+        allow(response).to receive_messages(class: Net::HTTPOK, code: "200", body: body)
         response
+      end
+    end
+
+    def check_expectations(expected_path)
+      expect(Net::HTTP).to have_received(:start).with("the-one-api.dev", { use_ssl: true })
+      expect(http).to have_received(:request) do |request|
+        expect(request.uri.request_uri).to eq "/v2/#{expected_path}"
       end
     end
 
     it "raises an error for unparseable JSON" do
       response_body = "{[}]"
-      setup_tests_and_response("movie", response_body)
+      setup_tests_and_response(response_body)
       movies_api = MichaelTaylorSdk::LordOfTheRings.new("").movies
       expect do
         movies_api.list
       end.to raise_error(MichaelTaylorSdk::Errors::JsonParseError,
                          "JSON response could not be parsed: expected object key, got '[}]")
+      check_expectations("movie")
     end
 
     it "raises an error for no content" do
-      setup_tests_and_response("movie", "")
+      setup_tests_and_response("")
       movies_api = MichaelTaylorSdk::LordOfTheRings.new("").movies
       expect { movies_api.list }.to raise_error(MichaelTaylorSdk::Errors::NoContentError, "Server response was empty")
+      check_expectations("movie")
     end
   end
 end
