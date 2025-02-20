@@ -67,7 +67,7 @@ RSpec.describe MichaelTaylorSdk::Errors do
       expect do
         movies_api.list
       end.to raise_error(MichaelTaylorSdk::Errors::JsonParseError,
-                         "JSON response could not be parsed: unexpected token at '{[}]'")
+                         "JSON response could not be parsed: expected object key, got '[}]")
     end
 
     it "raises an error for no content" do
