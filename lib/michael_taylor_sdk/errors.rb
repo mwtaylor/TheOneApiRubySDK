@@ -29,7 +29,7 @@ module MichaelTaylorSdk::Errors
   # Errors related to processing the returned content
   class ContentError < StandardError
     def initialize(msg = nil)
-      super(msg)
+      super
     end
   end
 
