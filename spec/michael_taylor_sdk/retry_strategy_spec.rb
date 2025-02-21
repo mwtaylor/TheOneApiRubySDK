@@ -34,14 +34,12 @@ RSpec.describe MichaelTaylorSdk::RetryStrategy do
     movies_api = MichaelTaylorSdk::LordOfTheRings.new("").with_retry_strategy(exponential_backoff).movies
     expect { movies_api.list }.to raise_error(MichaelTaylorSdk::Errors::ServerError)
 
-    expect(exponential_backoff).to have_received(:sleep).exactly(2).times
-    expect(exponential_backoff).to have_received(:sleep) do |sleep_time|
-      expect(sleep_time).to be >= 0.05
-      expect(sleep_time).to be <= 0.1
-    end
-    expect(exponential_backoff).to have_received(:sleep) do |sleep_time|
-      expect(sleep_time).to be >= 0.1
-      expect(sleep_time).to be <= 0.2
+    received_index = 0
+    expect(exponential_backoff).to have_received(:sleep).exactly(2).times do |sleep_time|
+      received_index += 1
+      puts(received_index)
+      expect(sleep_time).to be_between(0.05, 0.1) if received_index == 1
+      expect(sleep_time).to be_between(0.1, 0.2) if received_index == 2
     end
   end
 end
