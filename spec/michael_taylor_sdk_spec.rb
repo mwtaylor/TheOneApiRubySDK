@@ -2,6 +2,6 @@
 
 RSpec.describe MichaelTaylorSdk do
   it "has a version number" do
-    expect(MichaelTaylorSdk::VERSION).not_to be nil
+    expect(MichaelTaylorSdk::VERSION).not_to be_nil
   end
 end
