@@ -37,7 +37,6 @@ RSpec.describe MichaelTaylorSdk::RetryStrategy do
     received_index = 0
     expect(exponential_backoff).to have_received(:sleep).exactly(2).times do |sleep_time|
       received_index += 1
-      puts(received_index)
       expect(sleep_time).to be_between(0.05, 0.1) if received_index == 1
       expect(sleep_time).to be_between(0.1, 0.2) if received_index == 2
     end
