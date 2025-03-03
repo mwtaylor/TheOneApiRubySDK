@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    michael_taylor_sdk (2.0.0)
+    elephant_in_the_room-the_one_api_sdk (2.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -60,7 +60,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  michael_taylor_sdk!
+  elephant_in_the_room-the_one_api_sdk!
   rake (~> 13.2)
   rspec (~> 3.13)
   rubocop (~> 1.72)
