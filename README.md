@@ -1,14 +1,14 @@
-# MichaelTaylorSdk
+# ElephantInTheRoom::TheOneApiSdk
 
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add michael_taylor_sdk
+    $ bundle add elephant_in_the_room-the_one_api_sdk
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install michael_taylor_sdk
+    $ gem install elephant_in_the_room-the_one_api_sdk
 
 ## Usage
 
@@ -16,35 +16,35 @@ An access key is required to use this SDK. Visit [The One API sign up](https://t
 
 Start using the SDK by passing the access key to get an instance of the SDK.
 
-    lotr_sdk = MichaelTaylorSdk::LordOfTheRings.new("YOUR_ACCESS_KEY")
+    the_one = ElephantInTheRoom::TheOneApiSdk::TheOne.new("YOUR_ACCESS_KEY")
 
 Access one type of data by calling the appropriate method on the SDK, such as `.movies` to get information about one or more movies.
 
-    lotr_sdk.movies.list # Get all movies
-    lotr_sdk.movies.get("#{movie_id}") # Get one movie by ID
+    the_one.movies.list # Get all movies
+    the_one.movies.get("#{movie_id}") # Get one movie by ID
 
 The SDK behavior can be changed with modifier methods. These can be chained.
 
     # Return at most 10 results
-    lotr_sdk.paginated(limit: 10).movies.list
+    the_one.paginated(limit: 10).movies.list
 
     # Try to make the call up to 3 times
-    exponential_backoff = MichaelTaylorSdk::RetryStrategy::ExponentialBackoff.new(3)
-    lotr_sdk.with_retry_strategy(exponential_backoff).movies.list
+    exponential_backoff = ElephantInTheRoom::TheOneApiSdk::RetryStrategy::ExponentialBackoff.new(3)
+    the_one.with_retry_strategy(exponential_backoff).movies.list
     
     # Both modifiers active
-    lotr_sdk.paginated(limit: 10).with_retry_strategy(exponential_backoff).movies.list
+    the_one.paginated(limit: 10).with_retry_strategy(exponential_backoff).movies.list
 
     # Use modifiers more than once
-    lotr_sdk.paginated(limit: 10).with_retry_strategy(exponential_backoff) do |modified_sdk|
+    the_one.paginated(limit: 10).with_retry_strategy(exponential_backoff) do |modified_sdk|
         modified_sdk.movies.list
         modified_sdk.movies.get("#{movie_id}")
     end
 
 Quotes from a movie can be queried by movie ID or name
 
-    lotr_sdk.movies.quotes_from_movie("#{movie_id}")
-    lotr_sdk.movies.quotes_from_movie_name("#{movie_name}")
+    the_one.movies.quotes_from_movie("#{movie_id}")
+    the_one.movies.quotes_from_movie_name("#{movie_name}")
 
 ## Development
 
@@ -54,7 +54,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/mwtaylor/michael_taylor_sdk.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mwtaylor/TheOneApiRubySDK.
 
 ## License
 
