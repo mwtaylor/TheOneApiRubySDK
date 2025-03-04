@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    elephant_in_the_room-the_one_api_sdk (2.0.0)
+    elephant_in_the_room-the_one_api_sdk (2.0.1)
 
 GEM
   remote: https://rubygems.org/

@@ -16,6 +16,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Setup signed commits
+        run: |
+          git config --global commit.gpgsign true
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
