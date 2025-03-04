@@ -2,6 +2,6 @@
 
 module ElephantInTheRoom
   module TheOneApiSdk
-    VERSION = "1.0.0"
+    VERSION = "1.9.9"
   end
 end
