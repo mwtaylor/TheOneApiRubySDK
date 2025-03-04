@@ -14,5 +14,5 @@ Each pipeline stage is designed to have a simple transformation on the input and
 
 The main SDK object has methods that provide access to the API paths. These are defined under the api_paths directory.
 Currently there is just `.movies` but it could be expanded to include other paths like `.books` or `.characters`
-by adding new subclasses of MichaelTaylorSdk::ApiPaths::Base. These subclasses only need to define the main path used
+by adding new subclasses of ElephantInTheRoom::TheOneApiSdk::ApiPaths::Base. These subclasses only need to define the main path used
 in the API and any custom queries that abstract away complexity from the user by adding filters or combining related calls.

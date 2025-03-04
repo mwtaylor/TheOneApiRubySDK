@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "michael_taylor_sdk"
+require "elephant_in_the_room/the_one_api_sdk"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
